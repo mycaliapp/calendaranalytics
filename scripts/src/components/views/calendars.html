@@ -1,0 +1,39 @@
+<div class="panel panel-default">
+    <div class="panel-body" *ng-if="authenticationService.isAuthenticated">
+        <h4>Calendars</h4>
+        <ul class="list-group">
+            <button class="btn btn-default navbar-btn list-group-item" *ng-for="#calendar of calendarlist" (click)="selectcalendar(calendar)">
+				{{calendar.summary}}
+			</button>
+        </ul>        
+    </div>
+    <div class="panel-body" style="float: left" *ng-if="authenticationService.isAuthenticated">
+        <button class="btn btn-default navbar-btn" id="refresh" (click)="refreshAppointments()">Refresh</button>
+    </div>    
+    <div class="panel-body" style="text-align: right" *ng-if="authenticationService.isAuthenticated">       
+        <button class="btn btn-default navbar-btn" (click)="setdate('lastmonth')">Last month</button>
+        <button class="btn btn-default navbar-btn" (click)="setdate('lastweek')">Last week</button>
+        <button class="btn btn-default navbar-btn" (click)="setdate('lastday')">Last day</button>
+        <button class="btn btn-default navbar-btn" (click)="setdate('today')">Today</button>
+        <button class="btn btn-default navbar-btn" (click)="setdate('nextday')">Next day</button>
+        <button class="btn btn-default navbar-btn" (click)="setdate('nextweek')">Next week</button>
+        <button class="btn btn-default navbar-btn" (click)="setdate('nextmonth')">Next month</button>        
+    </div>
+    <div class="panel-body" *ng-if="authenticationService.isAuthenticated">
+        <h4>Appointments available for {{calendar}}:</h4>
+        <ul class="list-group">
+            <li class="list-group-item" *ng-for="#appointment of appointments">
+                <div style="float: left">{{appointment.title}}</div>                
+                <div style="text-align: right">Total time:  {{appointment.time}}  hours</div>
+            </li>
+            <li class="list-group-item">
+                Total events: {{appointmentService.totalEvent}}
+                <span style="margin-left: 8px">Total times: {{appointmentService.totalTime}} hours</span>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body" *ng-if="!authenticationService.isAuthenticated">
+        <h4>Welcome to Calendar analytics.</h4>
+        <h5>Please signin with google.</h5>
+    </div>
+</div>
