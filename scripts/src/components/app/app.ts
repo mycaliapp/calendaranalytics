@@ -3,6 +3,7 @@ import {Router, RouteConfig, RouterLink, RouterOutlet} from 'angular2/router';
 import {Inject} from 'angular2/di';
 import {Appointments} from '../views/appointments';
 import {Header} from '../views/header';
+import {Calendars} from '../views/calendars';
 
 import { _settings } from '../../settings';
 import {Home} from '../home/home';
@@ -14,7 +15,7 @@ import {Add} from '../add/add';
 @View({
   templateUrl: _settings.buildPath + '/components/app/app.html',
   //directives: [RouterLink, RouterOutlet, Appointments]
-  directives: [Header, Appointments]
+  directives: [Header, Calendars]
 })
 export class MyApp {
   // constructor(@Inject(Router) router: Router) {

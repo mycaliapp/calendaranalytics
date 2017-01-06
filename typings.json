@@ -1,6 +1,7 @@
 {
   "globalDependencies": {
     "gapi": "registry:dt/gapi#0.0.0+20161128184045",
-    "google.maps": "registry:dt/google.maps#3.25.0+20161208205818"
+    "google.maps": "registry:dt/google.maps#3.25.0+20161208205818",
+    "jquery": "registry:dt/jquery#1.10.0+20161119044246"
   }
 }
