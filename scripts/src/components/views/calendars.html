@@ -18,7 +18,7 @@
         <button class="btn btn-default navbar-btn" (click)="setdate('nextday')">Next day</button>
         <button class="btn btn-default navbar-btn" (click)="setdate('nextweek')">Next week</button>
         <button class="btn btn-default navbar-btn" (click)="setdate('nextmonth')">Next month</button>        
-        <input #box type="text" name="daterange" id="daterange-input", (focus)="update(box.value)">        
+        <input #box type="text" name="daterange" id="daterange-input", (focus)="rangefilter(box.value)">        
         <input type="text" id = "daterange">             
         <script type="text/javascript">
             $(function(){               
@@ -71,7 +71,8 @@
             </li>
             <li class="list-group-item">
                 Total events: {{appointmentService.totalEvent}}
-                <span style="margin-left: 8px">Total times: {{appointmentService.totalTime}} hours</span>
+                <span style="margin-left: 10px">Total times: {{appointmentService.totalTime}} hours</span>
+                <span style="margin-left: 10px">Most invited: {{most}}</span>
             </li>
         </ul>
     </div>

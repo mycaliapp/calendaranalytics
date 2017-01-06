@@ -25,9 +25,13 @@ export class Calendars{
     authenticationService: AuthenticationService;
     calendarService: CalendarService;
     appointmentService: AppointmentsService;
+    attendees: Array<Object>;
+    most: string;
 
     constructor(authenticationService: AuthenticationService, calendarService: CalendarService, appointmentService: AppointmentsService, private elementRef:ElementRef) {
         this.calendarlist = [{ summary: 'Please refresh view', id: 'none' }];
+        this.attendees = [{email: '', invitenum: 0}];
+		this.most = '';
         this.appointments = [{title: 'Please select calendar', time: 0, invite: 0}];
         this.timemin = new Date();
         this.timemax = new Date();
@@ -59,12 +63,31 @@ export class Calendars{
         this.appointmentService.loadAppointments(this.calendarid, this.timemax, this.timemin).then((newAppointments) => {
             // clean the array of existing appointments			
             this.appointments.splice(0, this.appointments.length);
+            this.attendees.splice(0, this.attendees.length);
             // copy all new items to the array of existing appointments
             this.appointments.push.apply(this.appointments, newAppointments);
+            this.attendees.push.apply(this.attendees, this.appointmentService.attendees);                        
             console.log('displaying ' + this.appointments.length + ' appointments')
-        });
-    }    
-    update(value: string) {        
+            var max;
+            var temp;
+            if(this.attendees.length != 0){
+                max = this.attendees[0].invitenum;
+                for (var i = 1; i < this.attendees.length; i++){
+                    if(max < this.attendees[i].invitenum){
+                        max = this.attendees[i].invitenum;
+                    }                    
+                }
+                console.log("max" + max);
+                for (var i = 0; i < this.attendees.length; i++){
+                    if (this.attendees[i].invitenum == max){
+                        this.most = this.most + "   " + this.attendees[i].email;
+                    }
+                }
+            }
+        });        
+    }
+    
+    rangefilter(value: string) {        
          var min;
          var max;
          var d = value.split(" ~ ");
