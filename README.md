@@ -9,7 +9,7 @@ A starter template for Angular2 scheduling.
 All you need to run this starter is [node.js](https://nodejs.org/) installed. And you should also have following NPM packages installed globally:
 
 
-  - npm install.
+  - npm install
   - gulp (npm install -g gulp)
   - tsd (npm install -g tsd)
   
