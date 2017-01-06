@@ -37,28 +37,21 @@
 
                     $("#daterange-input").val(picker.startDate.format('YYYY-MM-DD h:mm A') + ' ~ ' + picker.endDate.format('YYYY-MM-DD h:mm A'))
                     .show()                    
-                    .focus();
-                });
-                $("#daterange-input").keyup(function(){
-                    $("#daterange-input").hide();
+                    .focus()
+                    .hide();
                     $("#daterange").show();                    
                 });
+                
                 $("#daterange-input").click(function(){
                     $("#daterange-input").hide();
                     $("#daterange").show()
-                    .focus();                    
+                    .focus();                                  
                 });
 
                 $("#daterange").on('cancel.daterangepicker', function(ev, picker) {
                      $(this).val('');
                 });                
-            });
-            // $("#daterange").on('apply.daterangepicker', function(ev, picker){                
-            //     $("#daterange").on('change', function(){
-            //        
-            //     });
-            // });
-           
+            });          
                          
         </script>
     </div>
