@@ -4,6 +4,8 @@
 <head>
 	<title>Calendar analytics</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 	<style type="text/css">
 			.thumbnail { padding-bottom: 20px; margin: 10px; } 
 			.thumbnail .caption { text-align: center; padding-top: 20px; font-family: 'Comic Sans MS'; } 
@@ -16,15 +18,18 @@
 <script src="https://code.angularjs.org/2.0.0-alpha.27/router.dev.js"></script>
 <script src="https://apis.google.com/js/client.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 </head>
 
 <body>
 	<div class="container">
 		<my-app></my-app>
 	</div>
-	<script>
-			System.import('scripts/build/bootstrap');
-		</script>
+	<script>		
+		System.import('scripts/build/bootstrap');
+	</script>
 </body>
 
 </html>

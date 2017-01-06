@@ -1,5 +1,5 @@
 /// <reference path="../../../../typings/angular2/angular2.d.ts" />
-import { Component, View, NgFor, NgIf } from 'angular2/angular2';
+import { Component, View, NgFor, NgIf, ElementRef, OnInit } from 'angular2/angular2';
 import { Appointments } from '../views/appointments';
 import { AuthenticationService } from '../../services/authenticationservice';
 import { AppointmentsService } from '../../services/appointmentsservice';
@@ -14,20 +14,25 @@ import { _settings } from '../../settings';
     directives: [NgFor, NgIf, Appointments]
 })
 
-export class Calendars {
+export class Calendars{
     calendarlist: Array<Object>;
-    appointments: Array<string>;
+    appointments: Array<Object>;
     calendarid: string;
     calendar: string;
     timemin: Date;
     timemax: Date;
+    rangetime: string;
     authenticationService: AuthenticationService;
     calendarService: CalendarService;
     appointmentService: AppointmentsService;
+    attendees: Array<Object>;
+    most: string;
 
-    constructor(authenticationService: AuthenticationService, calendarService: CalendarService, appointmentService: AppointmentsService) {
+    constructor(authenticationService: AuthenticationService, calendarService: CalendarService, appointmentService: AppointmentsService, private elementRef:ElementRef) {
         this.calendarlist = [{ summary: 'Please refresh view', id: 'none' }];
-        this.appointments = [{title: 'Please select calendar', time: 0}];
+        this.attendees = [{email: '', invitenum: 0}];
+		this.most = '';
+        this.appointments = [{title: 'Please select calendar', time: 0, invite: 0}];
         this.timemin = new Date();
         this.timemax = new Date();
         this.timemax.setHours(23, 59, 59);
@@ -36,6 +41,7 @@ export class Calendars {
         this.appointmentService = appointmentService;
         this.calendarService = calendarService;
     }
+  
 
     refreshAppointments() {
 		/*
@@ -53,17 +59,57 @@ export class Calendars {
         });
     }
 
+    public viewevents(){
+        this.appointmentService.loadAppointments(this.calendarid, this.timemax, this.timemin).then((newAppointments) => {
+            // clean the array of existing appointments			
+            this.appointments.splice(0, this.appointments.length);
+            this.attendees.splice(0, this.attendees.length);
+            // copy all new items to the array of existing appointments
+            this.appointments.push.apply(this.appointments, newAppointments);
+            this.attendees.push.apply(this.attendees, this.appointmentService.attendees);                        
+            console.log('displaying ' + this.appointments.length + ' appointments')
+            var max;
+            var temp;
+            if(this.attendees.length != 0){
+                max = this.attendees[0].invitenum;
+                for (var i = 1; i < this.attendees.length; i++){
+                    if(max < this.attendees[i].invitenum){
+                        max = this.attendees[i].invitenum;
+                    }                    
+                }
+                console.log("max" + max);
+                for (var i = 0; i < this.attendees.length; i++){
+                    if (this.attendees[i].invitenum == max){
+                        this.most = this.most + "   " + this.attendees[i].email;
+                    }
+                }
+            }
+        });        
+    }
+    
+    rangefilter(value: string) {        
+         var min;
+         var max;
+         var d = value.split(" ~ ");
+         min = d[0];
+         max = d[1];         
+         this.timemin = new Date(min);
+         this.timemax = new Date(max);
+         this.viewevents();
+         console.log(this.timemin);
+         console.log(this.timemax);
+    }
+    
+
+    public setdata(){
+        
+        alert('It works!');
+    }
     selectcalendar(calendar) {
         this.calendarid = calendar.id;
         this.calendar = calendar.summary;
         console.log(this.calendarid);
-        this.appointmentService.loadAppointments(this.calendarid, this.timemax, this.timemin).then((newAppointments) => {
-            // clean the array of existing appointments			
-            this.appointments.splice(0, this.appointments.length);
-            // copy all new items to the array of existing appointments
-            this.appointments.push.apply(this.appointments, newAppointments);
-            console.log('displaying ' + this.appointments.length + ' appointments')
-        });
+        this.viewevents();        
     }
     setdate(datarange) {
         this.timemax = new Date();
@@ -135,13 +181,7 @@ export class Calendars {
          console.log(this.timemin);
 
         console.log(this.calendarid);
-        this.appointmentService.loadAppointments(this.calendarid, this.timemax, this.timemin).then((newAppointments) => {
-            // clean the array of existing appointments			
-            this.appointments.splice(0, this.appointments.length);
-            // copy all new items to the array of existing appointments
-            this.appointments.push.apply(this.appointments, newAppointments);
-            console.log('displaying ' + this.appointments.length + ' appointments')
-        });
+        this.viewevents();
 
     }
 

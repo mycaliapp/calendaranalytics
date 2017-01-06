@@ -18,17 +18,54 @@
         <button class="btn btn-default navbar-btn" (click)="setdate('nextday')">Next day</button>
         <button class="btn btn-default navbar-btn" (click)="setdate('nextweek')">Next week</button>
         <button class="btn btn-default navbar-btn" (click)="setdate('nextmonth')">Next month</button>        
+        <input #box type="text" name="daterange" id="daterange-input", (focus)="rangefilter(box.value)">        
+        <input type="text" id = "daterange">             
+        <script type="text/javascript">
+            $(function(){               
+                $("#daterange").daterangepicker({
+                    "timePicker": true,
+                    "linkedCalendars": false,
+                     "autoUpdateInput": false,                   
+                    locale: {
+                        cancelLabel: 'Clear'
+                    }
+                });
+                $("#daterange-input").hide();
+                $("#daterange").on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('YYYY-MM-DD h:mm A') + ' ~ ' + picker.endDate.format('YYYY-MM-DD h:mm A'))
+                    .hide();
+
+                    $("#daterange-input").val(picker.startDate.format('YYYY-MM-DD h:mm A') + ' ~ ' + picker.endDate.format('YYYY-MM-DD h:mm A'))
+                    .show()                    
+                    .focus()
+                    .hide();
+                    $("#daterange").show();                    
+                });
+                
+                $("#daterange-input").click(function(){
+                    $("#daterange-input").hide();
+                    $("#daterange").show()
+                    .focus();                                  
+                });
+
+                $("#daterange").on('cancel.daterangepicker', function(ev, picker) {
+                     $(this).val('');
+                });                
+            });          
+                         
+        </script>
     </div>
     <div class="panel-body" *ng-if="authenticationService.isAuthenticated">
         <h4>Appointments available for {{calendar}}:</h4>
         <ul class="list-group">
             <li class="list-group-item" *ng-for="#appointment of appointments">
                 <div style="float: left">{{appointment.title}}</div>                
-                <div style="text-align: right">Total time:  {{appointment.time}}  hours</div>
+                <div style="text-align: right">Total time:  {{appointment.time}}  hours <span style="margin-left: 15px">Invite: {{appointment.invite}}<span></div>
             </li>
             <li class="list-group-item">
                 Total events: {{appointmentService.totalEvent}}
-                <span style="margin-left: 8px">Total times: {{appointmentService.totalTime}} hours</span>
+                <span style="margin-left: 10px">Total times: {{appointmentService.totalTime}} hours</span>
+                <span style="margin-left: 10px">Most invited: {{most}}</span>
             </li>
         </ul>
     </div>
