@@ -31,7 +31,7 @@ export class Calendars{
     constructor(authenticationService: AuthenticationService, calendarService: CalendarService, appointmentService: AppointmentsService, private elementRef:ElementRef) {
         this.calendarlist = [{ summary: 'Please refresh view', id: 'none' }];
         this.attendees = [{email: '', invitenum: 0}];
-		this.most = '';
+		this.most = '0';
         this.appointments = [{title: 'Please select calendar', time: 0, invite: 0}];
         this.timemin = new Date();
         this.timemax = new Date();
@@ -70,6 +70,7 @@ export class Calendars{
             console.log('displaying ' + this.appointments.length + ' appointments')
             var max;
             var temp;
+            this.most = '0';
             if(this.attendees.length != 0){
                 max = this.attendees[0].invitenum;
                 for (var i = 1; i < this.attendees.length; i++){
