@@ -19,7 +19,8 @@
         <button class="btn btn-default navbar-btn" (click)="setdate('nextweek')">Next week</button>
         <button class="btn btn-default navbar-btn" (click)="setdate('nextmonth')">Next month</button>        
         <input #box type="text" name="daterange" id="daterange-input", (focus)="rangefilter(box.value)">        
-        <input type="text" id = "daterange">             
+        <input type="text" id = "daterange">
+                   
         <script type="text/javascript">
             $(function(){               
                 $("#daterange").daterangepicker({
@@ -50,18 +51,23 @@
 
                 $("#daterange").on('cancel.daterangepicker', function(ev, picker) {
                      $(this).val('');
-                });                
-            });          
-                         
+                });             
+            });                       
         </script>
     </div>
     <div class="panel-body" *ng-if="authenticationService.isAuthenticated">
         <h4>Appointments available for {{calendar}}:</h4>
         <ul class="list-group">
-            <li class="list-group-item" *ng-for="#appointment of appointments">
-                <div style="float: left">{{appointment.title}}</div>                
-                <div style="text-align: right">Total time:  {{appointment.time}}  hours <span style="margin-left: 15px">Invite: {{appointment.invite}}<span></div>
-            </li>
+            <div class="list-group-item" id="accordion" *ng-for="#appointment of appointments">               
+                <div style="float: left"><a data-toggle="collapse" data-parent="#accordion" href="#collapse{{appointment.id}}">{{appointment.title}}</a></div>                
+                <div style="text-align: right">Total time:  {{appointment.time}}  hours <span style="margin-left: 15px">Invite: {{appointment.invite}}<span></div>                
+            <div class="panel-collapse collapse" id="collapse{{appointment.id}}">
+                <h4>{{appointment.meeting}} Meeting</h4>
+                <div *ng-for="#attendee of appointment.attendees">
+                    <h5>{{attendee.email}}</h5>
+                </div>
+            </div> 
+            </div>                          
             <li class="list-group-item">
                 Total events: {{appointmentService.totalEvent}}
                 <span style="margin-left: 10px">Total times: {{appointmentService.totalTime}} hours</span>

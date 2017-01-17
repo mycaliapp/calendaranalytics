@@ -1,5 +1,5 @@
 /// <reference path="../../../../typings/angular2/angular2.d.ts" />
-import { Component, View, NgFor, NgIf, ElementRef, OnInit } from 'angular2/angular2';
+import { Component, View, NgFor, NgIf, ElementRef } from 'angular2/angular2';
 import { Appointments } from '../views/appointments';
 import { AuthenticationService } from '../../services/authenticationservice';
 import { AppointmentsService } from '../../services/appointmentsservice';
@@ -7,7 +7,7 @@ import { CalendarService } from '../../services/calendarService';
 import { _settings } from '../../settings';
 
 @Component({
-    selector: 'calendars'
+    selector: 'calendars'      
 })
 @View({
     templateUrl: _settings.buildPath + '/components/views/calendars.html',
@@ -27,21 +27,20 @@ export class Calendars{
     appointmentService: AppointmentsService;
     attendees: Array<Object>;
     most: string;
-
+    
     constructor(authenticationService: AuthenticationService, calendarService: CalendarService, appointmentService: AppointmentsService, private elementRef:ElementRef) {
         this.calendarlist = [{ summary: 'Please refresh view', id: 'none' }];
         this.attendees = [{email: '', invitenum: 0}];
 		this.most = '0';
-        this.appointments = [{title: 'Please select calendar', time: 0, invite: 0}];
+        this.appointments = [{id: 0, meeting: '', title: 'Please select calendar', time: 0, invite: 0, attendees: []}];
         this.timemin = new Date();
         this.timemax = new Date();
         this.timemax.setHours(23, 59, 59);
         this.timemin.setHours(0, 0, 0);
         this.authenticationService = authenticationService;
         this.appointmentService = appointmentService;
-        this.calendarService = calendarService;
+        this.calendarService = calendarService;      
     }
-  
 
     refreshAppointments() {
 		/*

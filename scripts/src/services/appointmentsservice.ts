@@ -3,7 +3,8 @@ export class AppointmentsService {
 	public totalEvent: number;
 	public totalTime: number;
 	public attendees: Array<Object>;	
-	public mostinvite: string;	
+	public mostinvite: string;
+	public meeting: string;	
 
 	loadAppointments(calendarid, timeMax, timeMin) {		
 		return new Promise((resolve, reject) => {
@@ -22,12 +23,15 @@ export class AppointmentsService {
 				var events = resp.items;				
 				var totaltime = 0;
 				var attendees;
+				var meeting;
 				this.attendees = [{email: '', invitenum: 0}];
 				this.attendees.splice(0, this.attendees.length);
 				console.log(this.attendees);								
-				var i;				
+				var i;
+				var id;				
 				if (events.length > 0) {
 					this.totalEvent = events.length;
+					id = 0;
 					for (i = 0; i < events.length; i++) {
 						var event = events[i];
 						var when_s = event.start.dateTime;
@@ -40,6 +44,11 @@ export class AppointmentsService {
 						}
 						if (event.attendees){
 							attendees = event.attendees;
+							this.meeting = attendees[0].email;														
+							var m = this.meeting.split('@', 2);
+							m = m[1].split('.', 2);
+							this.meeting = m[0].toUpperCase();
+							console.log(this.meeting);
 							var inn = 0;
 							for(var j = 0; j < attendees.length; j++){
 								if(this.attendees.length == 0){																		
@@ -67,7 +76,8 @@ export class AppointmentsService {
 						var start = new Date(when_s);
 						var end = new Date(when_e);
 						totaltime = totaltime + (end - start) / (1000 * 60 * 60);
-						appointments.push({title: (event.summary + '   (From    ' + when_s + '     To     ' + when_e + ')'), time: (end - start) / (1000 * 60 * 60), invite: attendees.length})
+						id++;
+						appointments.push({id: id, meeting: this.meeting, title: (event.summary + '   (From    ' + when_s + '     To     ' + when_e + ')'), time: (end - start) / (1000 * 60 * 60), invite: attendees.length, attendees: event.attendees})
 					}
 					this.totalTime = totaltime;					
 				} else {
