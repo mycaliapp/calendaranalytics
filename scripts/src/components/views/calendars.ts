@@ -69,7 +69,7 @@ export class Calendars{
             console.log('displaying ' + this.appointments.length + ' appointments')
             var max;
             var temp;
-            this.most = '0';
+            this.most = '';
             if(this.attendees.length != 0){
                 max = this.attendees[0].invitenum;
                 for (var i = 1; i < this.attendees.length; i++){

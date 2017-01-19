@@ -62,7 +62,7 @@
                 <div style="float: left"><a data-toggle="collapse" data-parent="#accordion" href="#collapse{{appointment.id}}">{{appointment.title}}</a></div>                
                 <div style="text-align: right">Total time:  {{appointment.time}}  hours <span style="margin-left: 15px">Invite: {{appointment.invite}}<span></div>                
             <div class="panel-collapse collapse" id="collapse{{appointment.id}}">
-                <h4>{{appointment.meeting}} Meeting</h4>
+                <h4 *ng-if="appointment.meeting">{{appointment.meeting}} Meeting</h4>
                 <div *ng-for="#attendee of appointment.attendees">
                     <h5>{{attendee.email}}</h5>
                 </div>
