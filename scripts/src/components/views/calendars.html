@@ -1,82 +1,118 @@
 <div class="panel panel-default">
     <div class="panel-body" *ng-if="authenticationService.isAuthenticated">
-        <h4>Calendars</h4>
-        <ul class="list-group">
-            <button class="btn btn-default navbar-btn list-group-item" *ng-for="#calendar of calendarlist" (click)="selectcalendar(calendar)">
-				{{calendar.summary}}
-			</button>
-        </ul>        
+        <div>
+            <div class="col-sm-10"><h3 style="margin-top:-1px; margin-left:-12px; color:#337ab7; font-weight: bold;">Calendars</h3></div>
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <select #sel class="form-control" id="gender1" (change)="changemode(sel.value)">
+                        <option selected>Individual</option>
+                        <option>Merge</option>
+                    </select>          
+                </div>
+            </div>          
+        </div>
+        <!--<div style="text-align: right">
+            <input #check type="checkbox" id="merge" (change)="changemode(check)">
+            <span class="mode">{{mode}}</span>
+        </div>-->
+        <br>
+        <br>
+        <br>
+        <div *ng-for="#calendar of calendarlist">
+            <button class="btn btn-success navbar-btn btn-calendar" (click)="selectcalendar(calendar)"></button>
+            <span class="calendar-list">{{calendar.summary}}</span>
+        </div>
+        
     </div>
     <div class="panel-body" style="float: left" *ng-if="authenticationService.isAuthenticated">
-        <button class="btn btn-default navbar-btn" id="refresh" (click)="refreshAppointments()">Refresh</button>
-    </div>    
-    <div class="panel-body" style="text-align: right" *ng-if="authenticationService.isAuthenticated">       
-        <button class="btn btn-default navbar-btn" (click)="setdate('lastmonth')">Last month</button>
-        <button class="btn btn-default navbar-btn" (click)="setdate('lastweek')">Last week</button>
-        <button class="btn btn-default navbar-btn" (click)="setdate('lastday')">Last day</button>
-        <button class="btn btn-default navbar-btn" (click)="setdate('today')">Today</button>
-        <button class="btn btn-default navbar-btn" (click)="setdate('nextday')">Next day</button>
-        <button class="btn btn-default navbar-btn" (click)="setdate('nextweek')">Next week</button>
-        <button class="btn btn-default navbar-btn" (click)="setdate('nextmonth')">Next month</button>        
-        <input #box type="text" name="daterange" id="daterange-input", (focus)="rangefilter(box.value)">        
-        <input type="text" id = "daterange">
-                   
+        <button class="btn btn-primary navbar-btn" id="refresh" (click)="refreshAppointments()">Refresh</button>
+    </div>
+    <div class="panel-body form-inline" style="text-align: right" *ng-if="authenticationService.isAuthenticated">
+        <button class="btn btn-success navbar-btn" (click)="setdate('lastmonth')">Last month</button>
+        <button class="btn btn-success navbar-btn" (click)="setdate('lastweek')">Last week</button>
+        <button class="btn btn-success navbar-btn" (click)="setdate('lastday')">Last day</button>
+        <button class="btn btn-danger navbar-btn" (click)="setdate('today')">Today</button>
+        <button class="btn btn-info navbar-btn" (click)="setdate('nextday')">Next day</button>
+        <button class="btn btn-info navbar-btn" (click)="setdate('nextweek')">Next week</button>
+        <button class="btn btn-info navbar-btn" (click)="setdate('nextmonth')">Next month</button>
+        <input #box type="text" class="form-control" name="daterange" id="daterange-input" , (focus)="rangefilter(box.value)">
+        <input type="text" class="form-control" id="daterange">
         <script type="text/javascript">
-            $(function(){               
+            $(function () {
                 $("#daterange").daterangepicker({
                     "timePicker": true,
                     "linkedCalendars": false,
-                     "autoUpdateInput": false,                   
+                    "autoUpdateInput": false,
                     locale: {
                         cancelLabel: 'Clear'
                     }
                 });
                 $("#daterange-input").hide();
-                $("#daterange").on('apply.daterangepicker', function(ev, picker) {
-                    $(this).val(picker.startDate.format('YYYY-MM-DD h:mm A') + ' ~ ' + picker.endDate.format('YYYY-MM-DD h:mm A'))
-                    .hide();
+                $("#daterange").on('apply.daterangepicker', function (ev, picker) {
+                    $(this).val(picker.startDate.format('YYYY-MM-DD h:mm A') + ' ~ ' + picker.endDate.format(
+                            'YYYY-MM-DD h:mm A'))
+                        .hide();
 
-                    $("#daterange-input").val(picker.startDate.format('YYYY-MM-DD h:mm A') + ' ~ ' + picker.endDate.format('YYYY-MM-DD h:mm A'))
-                    .show()                    
-                    .focus()
-                    .hide();
-                    $("#daterange").show();                    
+                    $("#daterange-input").val(picker.startDate.format('YYYY-MM-DD h:mm A') + ' ~ ' +
+                            picker.endDate.format('YYYY-MM-DD h:mm A'))
+                        .show()
+                        .focus()
+                        .hide();
+                    $("#daterange").show();
                 });
-                
-                $("#daterange-input").click(function(){
+
+                $("#daterange-input").click(function () {
                     $("#daterange-input").hide();
                     $("#daterange").show()
-                    .focus();                                  
+                        .focus();
                 });
 
-                $("#daterange").on('cancel.daterangepicker', function(ev, picker) {
-                     $(this).val('');
-                });             
-            });                       
+                $("#daterange").on('cancel.daterangepicker', function (ev, picker) {
+                    $(this).val('');
+                });
+            });
         </script>
     </div>
     <div class="panel-body" *ng-if="authenticationService.isAuthenticated">
-        <h4>Appointments available for {{calendar}}:</h4>
+        <div class="navbar apptitle"><h4 class="apptext">Appointments available for {{calendar}}</h4></div>
+        <ul class="pan"></ul>
         <ul class="list-group">
-            <div class="list-group-item" id="accordion" *ng-for="#appointment of appointments">               
-                <div style="float: left"><a data-toggle="collapse" data-parent="#accordion" href="#collapse{{appointment.id}}">{{appointment.title}}</a></div>                
-                <div style="text-align: right">Total time:  {{appointment.time}}  hours <span style="margin-left: 15px">Invite: {{appointment.invite}}<span></div>                
-            <div class="panel-collapse collapse" id="collapse{{appointment.id}}">
-                <h4 *ng-if="appointment.meeting">{{appointment.meeting}} Meeting</h4>
-                <div *ng-for="#attendee of appointment.attendees">
-                    <h5>{{attendee.email}}</h5>
-                </div>
-            </div> 
-            </div>                          
+            <table class="table table-condensed">
+                <thead>
+                    <td class="primary">Name</td>
+                    <td class="head">Duration</td>
+                    <td class="head">Total time</td>
+                    <td class="head">Invite</td>
+                </thead>
+                <tbody *ng-for="#appointment of appointments" style="border-width:0;">                                   
+                    <tr class="tr_class">                         
+                        <td class="primary cell td_class"><a class="a_class" data-toggle="collapse" href="#{{appointment.id}}" (click)="getid(appointment)">{{appointment.title}}</a></td>
+                        <td class="cell">{{appointment.duration}}</td>
+                        <td class="cell">{{appointment.time}}</td>
+                        <td class="cell">{{appointment.invite}}</td>                  
+                    </tr>
+                    <tr>                        
+                        <td colspan="4" class="hiddenRow">
+                            <div class="pannel-collapse collapse" id="{{appointment.id}}">                                
+                                <h4 *ng-if="appointment.meeting">{{appointment.meeting}} Meeting</h4>                                                        
+                                <div *ng-for="#attendee of appointment.attendees">
+                                    <h5>{{attendee.email}}</h5>
+                                </div>
+                            </div>
+                        </td>
+                        <!--<td colspan="4">dsfdsdf</td>-->
+                    </tr>                                                     
+                </tbody>       
+            </table>                                           
             <li class="list-group-item">
-                Total events: {{appointmentService.totalEvent}}
-                <span style="margin-left: 10px">Total times: {{appointmentService.totalTime}} hours</span>
-                <span style="margin-left: 10px">Most invited: {{most}}</span>
+                <span class="total"><b>Total events:</b> {{appointmentService.totalEvent}}</span>
+                <span class="total"><b>Total times:</b> {{appointmentService.totalTime}} hours</span>
+                <span class="total"><b>Most invited:</b> {{most}}</span>
             </li>
         </ul>
-    </div>
-    <div class="panel-body" *ng-if="!authenticationService.isAuthenticated">
-        <h4>Welcome to Calendar analytics.</h4>
-        <h5>Please signin with google.</h5>
-    </div>
-</div>
+        </div>
+        <div class="panel-body" *ng-if="!authenticationService.isAuthenticated">
+            <h4>Welcome to Calendar analytics.</h4>
+            <h5>Please signin with google.</h5>
+        </div>
+        </div>
