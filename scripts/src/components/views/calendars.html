@@ -17,11 +17,12 @@
         </div>-->
         <br>
         <br>
-        <br>
-        <div *ng-for="#calendar of calendarlist">
-            <button class="btn btn-success navbar-btn btn-calendar" (click)="selectcalendar(calendar)"></button>
+        <br> 
+        <div *ng-for="#calendar of calendarlist; #i = index">            
+            <button class="btn btn-success navbar-btn btn-calendar" id="{{i}}" (click)="selectcalendar(calendar, i)"></button>
             <span class="calendar-list">{{calendar.summary}}</span>
         </div>
+        
         
     </div>
     <div class="panel-body" style="float: left" *ng-if="authenticationService.isAuthenticated">
@@ -69,7 +70,7 @@
 
                 $("#daterange").on('cancel.daterangepicker', function (ev, picker) {
                     $(this).val('');
-                });
+                });               
             });
         </script>
     </div>
