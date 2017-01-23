@@ -46,7 +46,7 @@ export class AppointmentsService {
 																var appointments = [];
 																var events = resp.items;
 																var totaltime = 0;
-																var attendees;
+																var attendees;																
 																this.attendees = [
 																				{
 																								email: '',
@@ -65,6 +65,7 @@ export class AppointmentsService {
 																								var event = events[i];
 																								var when_s = event.start.dateTime;
 																								var when_e = event.end.dateTime;
+																								var str_attendees = '';
 																								if (!when_s) {
 																												when_s = event.start.date;
 																								}
@@ -83,7 +84,7 @@ export class AppointmentsService {
 																																m[j] = temp[1];
 																																temp = m[j].split('.');
 																																m[j] = temp[0];
-																																console.log("important - " + temp[0]);
+																																str_attendees =str_attendees + ' ' + attendees[j].email;																												
 																																if (this.attendees.length == 0) {
 																																				this
 																																								.attendees
@@ -103,7 +104,7 @@ export class AppointmentsService {
 																																								.push({email: attendees[j].email, invitenum: 1});
 																																} else {
 																																				inn = 0;
-																																}
+																																}																																											
 																												}
 																								} else {
 																												attendees = new Array();
@@ -132,7 +133,8 @@ export class AppointmentsService {
 																												duration: when_s + '     To     ' + when_e,
 																												time: (end - start) / (1000 * 60 * 60),
 																												invite: attendees.length,
-																												attendees: event.attendees
+																												attendees: event.attendees,
+																												str_attendees: str_attendees
 																								})
 																				}
 																				this.totalTime += totaltime;

@@ -4,7 +4,8 @@ export class AuthenticationService {
 	static clientId = '551098082224-trnrafkt265uasioeib02bs0qf6dmjmo.apps.googleusercontent.com';
 
 	static apiKey = 'AIzaSyA--Geq9f04wIRsHgx7sNSr3NbWN7MVSB4';
-	static scopes = ['https://www.googleapis.com/auth/plus.me', 'https://www.googleapis.com/auth/calendar.readonly', 'https://www.googleapis.com/auth/userinfo.email'];
+	static scopes = ['https://www.googleapis.com/auth/plus.me', 'https://www.googleapis.com/auth/calendar.readonly', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/gmail.readonly ',
+  'https://www.googleapis.com/auth/gmail.send'];
 	static logoutUrl = 'https://accounts.google.com/o/oauth2/revoke?token=';
 	/* 
 	 * global application state, so it's OK to keep it as field value of a singleton. alternative would be a 
@@ -57,6 +58,7 @@ export class AuthenticationService {
 			.then(() => this.initializeGooglePlusAPI())
 			.then(() => this.initializeGoogleCalendarAPI())
 			.then(() => this.loadGooglePlusUserData())
+			//.then(() => this.loadGmailApi())
 			.then((response: any) => this.setUserData(response.result.emails[0].value, response.result.image.url))
 			.catch((error: any) => { console.log('authentication failed: ' + error) });
 	}
@@ -106,6 +108,12 @@ export class AuthenticationService {
 			resolve(gapi.client.load('calendar', 'v3'));
 		});
 	}
+	// private loadGmailApi() {
+	// 	return new Promise((resolve, reject) => {
+	// 		console.log('initialize Gmail API');
+	// 		resolve(gapi.client.load('gmail', 'v1'));
+	// 	});		
+	// }
 
 	private loadGooglePlusUserData() {
 		return new Promise((resolve, reject) => {

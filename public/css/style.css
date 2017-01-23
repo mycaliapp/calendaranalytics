@@ -77,6 +77,10 @@ td.primary {
 	text-align: center;
 }
 
+.td_class {
+    text-align: left;
+}
+
 .apptitle {
 	background-color:coral;
 	padding: 5px;	

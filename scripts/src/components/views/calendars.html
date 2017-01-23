@@ -80,18 +80,22 @@
             <table class="table table-condensed">
                 <thead>
                     <td class="primary">Name</td>
+                    <td class="head">Company</td>
+                    <td class="head">Attendees</td>
                     <td class="head">Duration</td>
                     <td class="head">Total time</td>
-                    <td class="head">Invite</td>
+                    <td class="head">Number of attendees</td>
                 </thead>
                 <tbody *ng-for="#appointment of appointments" style="border-width:0;">                                   
                     <tr class="tr_class">                         
-                        <td class="primary cell td_class"><a class="a_class" data-toggle="collapse" href="#{{appointment.id}}" (click)="getid(appointment)">{{appointment.title}}</a></td>
+                        <td class="cell td_class"><!--<a class="a_class" data-toggle="collapse" href="#{{appointment.id}}">-->{{appointment.title}}</a></td>
+                        <td class="cell">{{appointment.meeting}}</td>
+                        <td class="cell">{{appointment.str_attendees}}</td>
                         <td class="cell">{{appointment.duration}}</td>
                         <td class="cell">{{appointment.time}}</td>
                         <td class="cell">{{appointment.invite}}</td>                  
                     </tr>
-                    <tr>                        
+                    <!--<tr>                        
                         <td colspan="4" class="hiddenRow">
                             <div class="pannel-collapse collapse" id="{{appointment.id}}">                                
                                 <h4 *ng-if="appointment.meeting">{{appointment.meeting}} Meeting</h4>                                                        
@@ -99,9 +103,8 @@
                                     <h5>{{attendee.email}}</h5>
                                 </div>
                             </div>
-                        </td>
-                        <!--<td colspan="4">dsfdsdf</td>-->
-                    </tr>                                                     
+                        </td>                        
+                    </tr>                                                     -->
                 </tbody>       
             </table>                                           
             <li class="list-group-item">
