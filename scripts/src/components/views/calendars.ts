@@ -25,10 +25,8 @@ export class Calendars {
     appointmentService : AppointmentsService;
     attendees : Array < Object >;
     most : string;
-    mode : string;
-    id : number;
-    meeting : string;
-    attend : Array<String>;
+    mode : string;   
+    meeting : string;    
 
     constructor(authenticationService : AuthenticationService, calendarService : CalendarService, appointmentService : AppointmentsService, private elementRef : ElementRef) {
         this.calendarlist = [
@@ -52,7 +50,8 @@ export class Calendars {
                 duration: '',
                 time: 0,
                 invite: 0,
-                attendees: []
+                attendees: [],
+                str_attendees: ''
             }
         ];
         this.timemin = new Date();
@@ -66,10 +65,40 @@ export class Calendars {
         this.authenticationService = authenticationService;
         this.appointmentService = appointmentService;
         this.calendarService = calendarService;
-        this.mode = 'Individual calendar mode';
-        this.id = 0;
-        this.meeting = '';
-        this.attend = [];
+        this.mode = 'Individual calendar mode';        
+        this.meeting = '';        
+
+        setInterval(() => {
+            var day = new Date();
+                //if(day.getDay() == 7){
+                    console.log("Interval runed!");
+                    //this.sendMessage();
+                    
+                    // clearInterval();
+                //}            
+            }, 10000);
+    }
+    
+    public sendMessage()
+    {
+        // var to = 'pkpavlo27@yahoo.com',
+        // subject = 'Gmail API sendmessage test',
+        // content = 'send a Gmail using domino server'
+        // var email ="From: 'me'\r\n"+
+        // "To:"+ to +"\r\n"+
+        // "Subject: "+subject+"\r\n"+
+        // "\r\n"+
+        // content;
+
+        // var sendRequest = gapi.client.gmail.users.messages.send({
+        //     'userId': 'me',
+        //     'resource': {
+        //     'raw': window.btoa(email).replace(/\+/g, '-').replace(/\//g, '_')
+        //     }
+        // });
+
+        var link = 'mailto:dorin0127@hotmail.com.com?subject=Message from pkpavlo27@yahoo.com &body=new messages';
+        window.location.href = link;
     }
 
     refreshAppointments() {
@@ -132,6 +161,7 @@ export class Calendars {
                     .push
                     .apply(this.attendees, this.appointmentService.attendees);
                 console.log('displaying ' + this.appointments.length + ' appointments')
+               
                 if (this.mode == 'Individual calendar mode' && this.appointments.length == 0) {
                     this
                         .appointments
