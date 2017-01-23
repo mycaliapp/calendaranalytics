@@ -22,6 +22,7 @@ div#accordion:hover {
 
 .btn-calendar {
     padding: 18px;
+    background: aliceblue
 }
 
 span.mode {
@@ -34,6 +35,10 @@ span.mode {
     background: #fff;
     margin: 0;
     box-sizing: border-box;
+}
+
+.checked {
+    background: green;
 }
 
 .caption {

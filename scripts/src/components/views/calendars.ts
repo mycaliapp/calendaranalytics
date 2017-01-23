@@ -97,7 +97,7 @@ export class Calendars {
         //     }
         // });
 
-        var link = 'mailto:dorin0127@hotmail.com.com?subject=Message from pkpavlo27@yahoo.com &body=new messages';
+        var link = 'mailto:dorin0127@hotmail.com?subject=Message from pkpavlo27@yahoo.com &body=new messages';
         window.location.href = link;
     }
 
@@ -132,6 +132,7 @@ export class Calendars {
             this.mode = 'Individual calendar mode';
             this.appointmentService.totalEvent = 0;
             this.appointmentService.totalTime = 0;
+            $('.btn-calendar').removeClass('checked');
         }        
     }
 
@@ -199,15 +200,18 @@ export class Calendars {
         console.log(this.timemin);
         console.log(this.timemax);
     }
-
-    public setdata() {
-
-        alert('It works!');
-    }
-    selectcalendar(calendar) {
+   
+    selectcalendar(calendar, index) {
         this.calendarid = calendar.id;
         this.calendar = calendar.summary;
-        console.log(this.calendarid);
+        var id = '#' + index;
+        console.log(index);
+        if(this.mode == 'Merge calendar mode') {
+            
+            $(id).addClass('checked');
+        } else {
+            $('.btn-calendar').removeClass('checked');
+        }
         this.viewevents();
     }
     setdate(datarange) {
