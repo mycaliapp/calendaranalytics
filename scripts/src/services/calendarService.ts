@@ -8,8 +8,7 @@ export class CalendarService{
 				var i;
 				if (cals.length > 0) {
 					for (i = 0; i < cals.length; i++) {
-                        calendars.push({summary: cals[i].summary, id: cals[i].id});
-						console.log(cals[i].id);
+                        calendars.push({summary: cals[i].summary, id: cals[i].id});						
 					}
 				}
 				else {
