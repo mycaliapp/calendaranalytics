@@ -188,7 +188,7 @@ export class Calendars {
                '<th align="center">Total time</th><th align="center">Number of Attendees</th></thead>' +
                '<tbody>' + ev_now + '</tbody></table></body></html>';             
         this.sendmessage({
-            'To': "dorin0127@hotmail.com" + ", " + "pkpavlo27@yahoo.com",
+            'To': "recip2@email.com" + ", " + "recip2@email.com",
             'subject': "Calendaranalytics",
             'content-type': 'text/html; charset="UTF-8'
          }, message)
