@@ -17,8 +17,9 @@
     "url": "https://github.com/EladRK/angular-starter/issues"
   },
   "homepage": "https://github.com/EladRK/angular-starter",
-  "dependencies": {   
-    "bootstrap": "^3.3.4"    
+  "dependencies": {
+    "bootstrap": "^3.3.4",
+    "emailjs": "^1.0.8"
   },
   "devDependencies": {
     "body-parser": "^1.10.1",

@@ -136,6 +136,7 @@ export class AppointmentsService {
 																												attendees: event.attendees,
 																												str_attendees: str_attendees
 																								})
+																								// console.log(appointments.length + " + " + "Length!");
 																				}
 																				this.totalTime += totaltime;
 																} else {

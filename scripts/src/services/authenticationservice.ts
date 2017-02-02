@@ -57,9 +57,9 @@ export class AuthenticationService {
 		return this.proceedAuthentication(immediate)
 			.then(() => this.initializeGooglePlusAPI())
 			.then(() => this.initializeGoogleCalendarAPI())
-			.then(() => this.loadGooglePlusUserData())
-			//.then(() => this.loadGmailApi())
+			.then(() => this.loadGooglePlusUserData())						
 			.then((response: any) => this.setUserData(response.result.emails[0].value, response.result.image.url))
+			.then(() => this.initializeGmailAPI())
 			.catch((error: any) => { console.log('authentication failed: ' + error) });
 	}
 
@@ -108,12 +108,13 @@ export class AuthenticationService {
 			resolve(gapi.client.load('calendar', 'v3'));
 		});
 	}
-	// private loadGmailApi() {
-	// 	return new Promise((resolve, reject) => {
-	// 		console.log('initialize Gmail API');
-	// 		resolve(gapi.client.load('gmail', 'v1'));
-	// 	});		
-	// }
+	
+	private initializeGmailAPI() {
+		return new Promise((resolve, reject) => {
+			console.log('initialize Gmail API');
+			resolve(gapi.client.load('gmail', 'v1'));
+		});
+	}	
 
 	private loadGooglePlusUserData() {
 		return new Promise((resolve, reject) => {
