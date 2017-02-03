@@ -28,6 +28,8 @@ export class Calendars {
     mode : string;
     meeting : string;
     message : HTMLElement;
+    daycount : number;
+    weekcouunt : number;
 
     constructor(authenticationService : AuthenticationService, calendarService : CalendarService, appointmentService : AppointmentsService, private elementRef : ElementRef) {
         this.calendarlist = [
@@ -68,22 +70,23 @@ export class Calendars {
         this.calendarService = calendarService;
         this.mode = 'Individual calendar mode';
         this.meeting = '';
+        this.daycount = 0;
+        // this.weekcount = 0;
         // this.refreshAppointments(); this.message = <h4> + 'Send message' + </h4>
-        var d = new Date();
-        var dd = new Date();
-        d.setDate(dd.getDate() + 3 - 7);
-        console.log(d.getDay());
+        var d = new Date();       
+        console.log(d.getHours());
         var my = setInterval(() => {
             var day = new Date();
-            if (day.getHours() == 5) {                
+            if (day.getHours() == 9) {                
                 this.getmeetingdata('day');
+                console.log("Sent email!");
                 // clearInterval(my);
             }
             if (day.getDay() == 0 && day.getHours() == 7) {
                 this.getmeetingdata('week');
             }
 
-        }, 2400000);
+        }, 2400);
     }
 
     getmeetingdata(str) {
@@ -108,18 +111,15 @@ export class Calendars {
         this
             .calendarService
             .loadCalendarlists()
-            .then((newcalendars) => {
-                // clean the array of existing calendars
+            .then((newcalendars) => {                
                 this
                     .calendarlist
-                    .splice(0, this.calendarlist.length);
-                // copy all new items to the array of existing calendars
+                    .splice(0, this.calendarlist.length);                
                 this
                     .calendarlist
                     .push
                     .apply(this.calendarlist, newcalendars);
-                var i = 0;
-                var j = 0;
+                var i = 0;               
                 var appoint = this.appointmentService;
                 var calendars = this.calendarlist;
                 var app_now = new Array();
@@ -129,18 +129,14 @@ export class Calendars {
                     appoint.loadAppointments(calendars[i]['id'], max, min).then((newAppointments) => {                        
                         app_send
                             .push
-                            .apply(app_send, newAppointments);
-                        // console.log(app_send.length + " + Important!");
+                            .apply(app_send, newAppointments);                        
                         i++;
                     });            
                     t_appointment.loadAppointments(calendars[i]['id'], t_max, t_min).then((newAppointments) => {                        
                         app_now
                             .push
-                            .apply(app_now, newAppointments);
-                        // console.log(app_send.length + " + Important!");                        
-                    });
-                    // console.log(i + " + Important!");
-                    
+                            .apply(app_now, newAppointments);                                 
+                    });                   
                     if (i == calendars.length - 1) {
                         clearInterval(time_delay);
                         app.send(app_send, app_now, str);
@@ -188,7 +184,7 @@ export class Calendars {
                '<th align="center">Total time</th><th align="center">Number of Attendees</th></thead>' +
                '<tbody>' + ev_now + '</tbody></table></body></html>';             
         this.sendmessage({
-            'To': "recip2@email.com" + ", " + "recip2@email.com",
+            'To': "dorin0127@hotmail.com" + ", " + "pkpavlo27@yahoo.com",
             'subject': "Calendaranalytics",
             'content-type': 'text/html; charset="UTF-8'
          }, message)
@@ -354,20 +350,25 @@ export class Calendars {
 
         }
         if (datarange == 'lastweek') {
+            this.daycount = this.daycount - 7;
             var date = new Date();
             this
                 .timemin
-                .setDate(date.getDate() - 7);
+                .setDate(date.getDate() + this.daycount);
             this
                 .timemax
-                .setHours(23, 59, 59);
+                .setDate(date.getDate() + this.daycount + 7)  
+            this
+                .timemax                
+                .setHours(23, 59, 59);                     
             this
                 .timemin
                 .setHours(0, 0, 0);
         }
         if (datarange == 'lastday') {
+            this.daycount = this.daycount - 1;
             var date = new Date();
-            var lastday = date.getDate() - 1;
+            var lastday = date.getDate() + this.daycount;
             this
                 .timemax
                 .setDate(lastday);
@@ -383,6 +384,7 @@ export class Calendars {
 
         }
         if (datarange == 'today') {
+            this.daycount = 0;
             var date = new Date();
             var today = date.getDate();
             this
@@ -400,8 +402,9 @@ export class Calendars {
 
         }
         if (datarange == 'nextday') {
+            this.daycount = this.daycount + 1;
             var date = new Date();
-            var nextday = date.getDate() + 1;
+            var nextday = date.getDate() + this.daycount;
             this
                 .timemax
                 .setDate(nextday);
@@ -416,13 +419,17 @@ export class Calendars {
                 .setHours(0, 0, 0);
         }
         if (datarange == 'nextweek') {
+            this.daycount = this.daycount + 7;
             var date = new Date();
             this
                 .timemax
-                .setDate(date.getDate() + 7);
+                .setDate(date.getDate() + this.daycount);
             this
                 .timemax
                 .setHours(23, 59, 59);
+            this
+                .timemin
+                .setDate(date.getDate() + this.daycount - 7);
             this
                 .timemin
                 .setHours(0, 0, 0);
