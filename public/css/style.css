@@ -110,7 +110,13 @@ td.primary {
 	background: honeydew;
 }
 
-.list-group-item {
+.round {
+	border-radius: 24px;   
+    /*background-color: crimson !important;
+    border-color: white;*/
+}
+
+.bottom-list {
 	background: moccasin;
 }
 
