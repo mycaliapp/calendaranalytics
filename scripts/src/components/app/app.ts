@@ -18,11 +18,11 @@ import {Add} from '../add/add';
   directives: [Header, Calendars]
 })
 export class MyApp {
-  // constructor(@Inject(Router) router: Router) {
-  //   router.config([
-  //     { path: '', as: 'home', component: Home },
+  constructor(@Inject(Router) router: Router) {
+    router.config([
+      { path: '', as: 'home', component: Home },
   //     { path: '/add', as: 'add', component: Add },
   //     { path: '', as: 'appointment', component: Appointments}
-  //   ]);
-  // }
+    ]);
+  }
 }

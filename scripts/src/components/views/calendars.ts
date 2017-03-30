@@ -77,16 +77,22 @@ export class Calendars {
         console.log(d.getHours());
         var my = setInterval(() => {
             var day = new Date();
-            if (day.getHours() == 9) {                
+            if (day.getHours() == 15) {
+                this.authenticationService.login();                
                 this.getmeetingdata('day');
-                console.log("Sent email!");
-                // clearInterval(my);
+                clearInterval(my);                
             }
             if (day.getDay() == 0 && day.getHours() == 7) {
                 this.getmeetingdata('week');
             }
 
-        }, 2400);
+        }, 480000);
+    }
+
+    createevent(calid){
+        gapi.client.calendar.events.insert(
+            
+        )
     }
 
     getmeetingdata(str) {
